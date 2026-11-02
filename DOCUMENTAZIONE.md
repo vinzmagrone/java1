@@ -73,7 +73,7 @@ Il prototipo prevede **una sola istanza per cartella dati**: non implementa bloc
 
 ## Piano di verifica e dimostrazione
 
-In Eclipse aprire `VerificaProgetto.java` e scegliere **Run As → Java Application**. In alternativa, su Windows eseguire `.\scripts\verifica.bat`; su Linux/macOS eseguire `bash scripts/verifica.sh` per i controlli automatici descritti nel README. Gli script `.bat` usano il classpath Windows e attivano UTF-8 per gli accenti; richiedono JDK 21 e Maven nel Path. Non sono stati eseguiti su Windows nell'ambiente di sviluppo Linux. Per la dimostrazione del menu:
+In Eclipse aprire `VerificaProgetto.java` e scegliere **Run As → Java Application** per i controlli automatici descritti nel README. Il progetto usa la struttura standard Maven, un solo package per le classi applicative e una cartella separata per le verifiche. Non servono script o terminale. Per la dimostrazione del menu:
 
 1. Creare un archivio temporaneo e inserire l'acquisto dell'esempio: due caffè da 1,22 EUR al 22%, un pane da 1,04 EUR al 4%.
 2. Verificare il totale di 3,48 EUR e l'IVA di 0,48 EUR.
@@ -84,7 +84,7 @@ In Eclipse aprire `VerificaProgetto.java` e scegliere **Run As → Java Applicat
 
 ## Esiti verificati nell'ambiente di sviluppo
 
-La compilazione Maven è terminata con `BUILD SUCCESS`. Il comando `bash scripts/verifica.sh` ha eseguito e superato tutte le 20 verifiche. È stato inoltre provato il menu con input automatico: creazione dell'acquisto da 3,48 EUR, chiusura e riapertura del processo, rilettura del documento, assegnazione del numero 2 al secondo acquisto, rifiuto di carrello vuoto e quantità zero. Il tentativo senza configurazione SMTP ha conservato il documento da inviare. Con la configurazione per Eclipse, i segnaposto non compilati producono un messaggio che invita ad aprire `ConfigurazioneGmail.java`.
+La compilazione Maven è terminata con `BUILD SUCCESS`. La classe `VerificaProgetto` ha eseguito e superato tutte le 20 verifiche. È stato inoltre provato il menu con input automatico: creazione dell'acquisto da 3,48 EUR, chiusura e riapertura del processo, rilettura del documento, assegnazione del numero 2 al secondo acquisto, rifiuto di carrello vuoto e quantità zero. Il tentativo senza configurazione SMTP ha conservato il documento da inviare. Con la configurazione per Eclipse, i segnaposto non compilati producono un messaggio che invita ad aprire `ConfigurazioneGmail.java`.
 
 Composizione MIME e contenuto dell'allegato sono verificati offline. Non è stato eseguito un invio SMTP reale: non sono state fornite credenziali o una destinazione di prova autorizzata. Per questa parte resta la verifica manuale descritta sopra.
 

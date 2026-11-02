@@ -8,9 +8,32 @@ Progetto didattico Java con menu testuale, realizzato a partire dagli esempi del
 
 Il POM conserva `it.amdani.school:smtp-example:0.0.1-SNAPSHOT` e l'unica dipendenza dichiarata nell'allegato, `com.sun.mail:javax.mail:1.6.2`. JavaMail usa anche la propria dipendenza transitiva Activation: non è stata aggiunta una libreria applicativa. Nessun framework, database, generatore PDF o libreria di test è stato introdotto. Si usa il JDK 21 già preparato nell'ambiente e Maven 3.9.9, senza sostituire versioni indicate dal docente.
 
+## Struttura del progetto
+
+Un solo package contiene le sei classi del programma. Non ci sono cartelle per controller, servizi o altri livelli aggiuntivi.
+
+```text
+java1/
+├── pom.xml                     Configurazione Maven e libreria del professore
+├── README.md                   Come importare e usare il progetto
+├── DOCUMENTAZIONE.md           Relazione e presentazione in classe
+└── src/
+    ├── main/java/it/amdani/school/
+    │   ├── Main.java                 Menu e avvio del programma
+    │   ├── RigaAcquisto.java         Una merce acquistata
+    │   ├── Scontrino.java            Documento e calcoli
+    │   ├── Repository.java           Salvataggio e lettura dei file
+    │   ├── SendMail.java             Invio email
+    │   └── ConfigurazioneGmail.java  Email e password da inserire
+    └── test/java/it/amdani/school/
+        └── VerificaProgetto.java     Verifiche separate dal programma
+```
+
+Durante l'uso vengono create `dati/` per gli scontrini e `target/` per i file compilati: non occorre modificarle. Per iniziare, aprire `Main.java`; per configurare l'email, aprire `ConfigurazioneGmail.java`.
+
 ## Avvio in Eclipse su Windows, senza terminale
 
-1. Installare **JDK 21** ed **Eclipse IDE for Java Developers** con il supporto Maven (m2e). Eclipse gestisce Maven: non occorre installarlo separatamente o usare i file `.bat`.
+1. Installare **JDK 21** ed **Eclipse IDE for Java Developers** con il supporto Maven (m2e). Eclipse gestisce Maven: non occorre installarlo separatamente.
 2. Scaricare il progetto da GitHub con **Code → Download ZIP** ed estrarlo.
 3. In Eclipse scegliere **File → Import → Maven → Existing Maven Projects**.
 4. Con **Browse** selezionare la cartella che contiene `pom.xml`, selezionare il progetto e premere **Finish**. Attendere il download delle dipendenze: al primo avvio serve Internet.
@@ -43,7 +66,7 @@ Espandere **src/test/java → it.amdani.school**, aprire `VerificaProgetto.java`
 
 Nella cartella `dati` del progetto, con la directory di lavoro predefinita di Eclipse. Per vederla, fare clic destro sul progetto e scegliere **Refresh**. Per un archivio diverso: **Run → Run Configurations → Java Application → Main → Arguments → Program arguments**, inserire il percorso tra virgolette, per esempio `"C:\Users\Nome\Documenti\Prova scontrini"`.
 
-Gli script `.bat` e `.sh` restano strumenti facoltativi per altri ambienti. Eclipse compila direttamente il progetto importato da Maven. L'ambiente di verifica disponibile è Linux: l'importazione e l'esecuzione in Eclipse su Windows non sono state provate qui.
+Eclipse compila direttamente il progetto importato da Maven. L'ambiente di verifica disponibile è Linux: l'importazione e l'esecuzione in Eclipse su Windows non sono state provate qui.
 
 ## Guida al menu
 
@@ -71,4 +94,4 @@ In Eclipse fare clic destro su `VerificaProgetto.java` e scegliere **Run As → 
 
 **`mvn test` da solo non esegue queste verifiche**, perché non si è aggiunta una libreria di test. Per validare il progetto eseguire la classe indicata. L'invio SMTP reale richiede credenziali e rete: non viene simulato come consegna riuscita dai test offline.
 
-La relazione tecnica e una traccia per la presentazione in classe sono in [docs/DOCUMENTAZIONE.md](docs/DOCUMENTAZIONE.md).
+La relazione tecnica e una traccia per la presentazione in classe sono in [DOCUMENTAZIONE.md](DOCUMENTAZIONE.md).
