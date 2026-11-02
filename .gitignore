@@ -1,0 +1,4 @@
+# File generati dalla compilazione e dati locali dei clienti.
+/target/
+/dati/
+*.log
