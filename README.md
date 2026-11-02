@@ -43,6 +43,19 @@ Durante l'uso vengono create `dati/` per gli scontrini e `target/` per i file co
 
 Non occorrono comandi di terminale. Il menu è testuale nella Console di Eclipse, non una finestra grafica. Se Eclipse segnala dipendenze mancanti, fare clic destro sul progetto e scegliere **Maven → Update Project**.
 
+### Se Eclipse mostra molti errori
+
+Il repository include `.project`, `.classpath` e `.settings` per indicare esplicitamente a Eclipse le due cartelle sorgenti, Java 21 e le dipendenze Maven. Non copiare i file Java dentro un vecchio progetto con package: importare la cartella completa tramite **Maven → Existing Maven Projects**.
+
+Se il progetto era gia aperto prima degli aggiornamenti:
+
+1. Salvare a parte eventuali modifiche locali, soprattutto `ConfigurazioneGmail.java` e la cartella `dati`.
+2. Usare la versione aggiornata del progetto. In Eclipse premere **Refresh**, poi **Maven → Update Project**, infine **Project → Clean**.
+3. In **Window → Preferences → Java → Installed JREs → Execution Environments → JavaSE-21**, selezionare il JDK 21 installato. Se `JavaSE-21` non compare, serve una versione di Eclipse che supporti Java 21.
+4. Avviare la classe `Main` attuale dal package predefinito; un'eventuale vecchia configurazione di avvio con `it.amdani.school.Main` non e piu valida.
+
+Errori sugli import `javax.mail` indicano che controllare **Maven Dependencies** e l'esito del download Maven. Errori su `java.lang.Object` o sulla JRE richiedono di controllare il JDK associato. Il testo preciso nella scheda **Problems** permette di distinguere queste cause: la configurazione salvata non sostituisce l'installazione locale di JDK e supporto Maven.
+
 ### Gmail: credenziali direttamente nel codice
 
 Aprire `ConfigurazioneGmail.java` e sostituire i due segnaposto tra virgolette:
