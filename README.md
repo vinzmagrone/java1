@@ -10,7 +10,7 @@ Il POM conserva `it.amdani.school:smtp-example:0.0.1-SNAPSHOT` e l'unica dipende
 
 ## Struttura del progetto
 
-Un solo package contiene le sei classi del programma. Non ci sono cartelle per controller, servizi o altri livelli aggiuntivi.
+Le sei classi del programma sono nel package predefinito, senza dichiarazioni `package`. Non ci sono cartelle per controller, servizi o altri livelli aggiuntivi.
 
 ```text
 java1/
@@ -18,14 +18,14 @@ java1/
 ├── README.md                   Come importare e usare il progetto
 ├── DOCUMENTAZIONE.md           Relazione e presentazione in classe
 └── src/
-    ├── main/java/it/amdani/school/
+    ├── main/java/
     │   ├── Main.java                 Menu e avvio del programma
     │   ├── RigaAcquisto.java         Una merce acquistata
     │   ├── Scontrino.java            Documento e calcoli
     │   ├── Repository.java           Salvataggio e lettura dei file
     │   ├── SendMail.java             Invio email
     │   └── ConfigurazioneGmail.java  Email e password da inserire
-    └── test/java/it/amdani/school/
+    └── test/java/
         └── VerificaProgetto.java     Verifiche separate dal programma
 ```
 
@@ -38,7 +38,7 @@ Durante l'uso vengono create `dati/` per gli scontrini e `target/` per i file co
 3. In Eclipse scegliere **File → Import → Maven → Existing Maven Projects**.
 4. Con **Browse** selezionare la cartella che contiene `pom.xml`, selezionare il progetto e premere **Finish**. Attendere il download delle dipendenze: al primo avvio serve Internet.
 5. In **Window → Preferences → Java → Installed JREs** selezionare il **JDK 21**. Se manca, aggiungerlo con **Add → Standard VM**, indicando la cartella del JDK. In **Project → Properties → Java Build Path → Libraries** verificare che il progetto utilizzi Java 21.
-6. Espandere **src/main/java → it.amdani.school**, aprire `Main.java` e scegliere **Run As → Java Application**.
+6. Espandere **src/main/java → (default package)**, aprire `Main.java` e scegliere **Run As → Java Application**.
 7. Usare il menu nella scheda **Console** di Eclipse: fare clic nella Console per digitare le risposte.
 
 Non occorrono comandi di terminale. Il menu è testuale nella Console di Eclipse, non una finestra grafica. Se Eclipse segnala dipendenze mancanti, fare clic destro sul progetto e scegliere **Maven → Update Project**.
@@ -60,11 +60,13 @@ Il programma funziona subito per creazione e consultazione anche senza compilare
 
 ### Verifiche da Eclipse
 
-Espandere **src/test/java → it.amdani.school**, aprire `VerificaProgetto.java` e scegliere **Run As → Java Application**. Nella Console deve comparire **SUPERATE 20 verifiche.** Non usare **Run As → JUnit Test**: non è stata aggiunta la libreria JUnit.
+Espandere **src/test/java → (default package)**, aprire `VerificaProgetto.java` e scegliere **Run As → Java Application**. Nella Console deve comparire **SUPERATE 20 verifiche.** Non usare **Run As → JUnit Test**: non è stata aggiunta la libreria JUnit.
 
 ### Dove vengono salvati gli scontrini
 
 Nella cartella `dati` del progetto, con la directory di lavoro predefinita di Eclipse. Per vederla, fare clic destro sul progetto e scegliere **Refresh**. Per un archivio diverso: **Run → Run Configurations → Java Application → Main → Arguments → Program arguments**, inserire il percorso tra virgolette, per esempio `"C:\Users\Nome\Documenti\Prova scontrini"`.
+
+Se hai già creato un archivio con la precedente versione dotata di package, conserva quei file: la serializzazione di quella versione non è compatibile con le classi ora prive di package. Per provare questa versione usa una cartella dati nuova, senza cancellare l'archivio precedente.
 
 Eclipse compila direttamente il progetto importato da Maven. L'ambiente di verifica disponibile è Linux: l'importazione e l'esecuzione in Eclipse su Windows non sono state provate qui.
 

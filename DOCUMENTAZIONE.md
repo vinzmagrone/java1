@@ -33,7 +33,7 @@ La partita IVA è controllata solo per lunghezza e cifre; non si verifica il cod
 | `SendMail` | Messaggio MIME, allegato e trasporto SMTP | Adatta `Session`, `Authenticator`, `MimeMultipart` e `Transport.send` dell'esempio |
 | `VerificaProgetto` | Controlli ripetibili senza librerie nuove | Classe di verifica con metodo `main` |
 
-Le due classi `Repository` dell'allegato avevano lo stesso nome e non potevano convivere nello stesso package. Sono state unificate. I percorsi Windows fissi sono stati sostituiti da una cartella relativa o configurabile. I flussi sono chiusi automaticamente con `try` e le eccezioni raggiungono il chiamante invece di nascondere un errore come risultato vuoto.
+Le due classi `Repository` dell'allegato avevano lo stesso nome e non potevano convivere con lo stesso nome. Sono state unificate. I percorsi Windows fissi sono stati sostituiti da una cartella relativa o configurabile. I flussi sono chiusi automaticamente con `try` e le eccezioni raggiungono il chiamante invece di nascondere un errore come risultato vuoto.
 
 Il codice SMTP mantiene la libreria e la versione originali. Il server è Gmail (`smtp.gmail.com:587`, STARTTLS); email e password per le app Google si inseriscono direttamente nelle costanti di `ConfigurazioneGmail.java`, seguendo le istruzioni Eclipse del README. Non servono variabili di ambiente. Non pubblicare la copia del file contenente credenziali reali. L'allegato PDF dimostrativo è sostituito dal file di testo realmente generato: produrre PDF richiederebbe codice ulteriore o nuove librerie non consentite. Il testo semplice evita anche di dover interpretare come HTML i dati inseriti dal cliente.
 
@@ -73,7 +73,7 @@ Il prototipo prevede **una sola istanza per cartella dati**: non implementa bloc
 
 ## Piano di verifica e dimostrazione
 
-In Eclipse aprire `VerificaProgetto.java` e scegliere **Run As → Java Application** per i controlli automatici descritti nel README. Il progetto usa la struttura standard Maven, un solo package per le classi applicative e una cartella separata per le verifiche. Non servono script o terminale. Per la dimostrazione del menu:
+In Eclipse aprire `VerificaProgetto.java` e scegliere **Run As → Java Application** per i controlli automatici descritti nel README. Il progetto usa la struttura standard Maven, le classi applicative nel package predefinito e una cartella separata per le verifiche. Non servono script o terminale. Per la dimostrazione del menu:
 
 1. Creare un archivio temporaneo e inserire l'acquisto dell'esempio: due caffè da 1,22 EUR al 22%, un pane da 1,04 EUR al 4%.
 2. Verificare il totale di 3,48 EUR e l'IVA di 0,48 EUR.

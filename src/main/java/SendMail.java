@@ -1,5 +1,3 @@
-package it.amdani.school;
-
 import java.nio.file.Path;
 import java.util.Properties;
 import javax.mail.*;

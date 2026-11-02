@@ -1,5 +1,3 @@
-package it.amdani.school;
-
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.*;

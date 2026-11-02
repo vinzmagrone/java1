@@ -1,5 +1,3 @@
-package it.amdani.school;
-
 /** Configurazione da compilare in Eclipse prima del primo invio. */
 public class ConfigurazioneGmail {
     // Scrivi tra le virgolette il tuo indirizzo Gmail completo.

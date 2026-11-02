@@ -1,5 +1,3 @@
-package it.amdani.school;
-
 import java.io.ByteArrayOutputStream;
 import java.math.BigDecimal;
 import java.nio.file.*;
