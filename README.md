@@ -10,6 +10,57 @@ Il POM conserva `it.amdani.school:smtp-example:0.0.1-SNAPSHOT` e l'unica dipende
 
 ## Avvio rapido
 
+### Windows
+
+1. Installare **JDK 21** e **Apache Maven 3.9.9**. Impostare `JAVA_HOME` sulla cartella del JDK e aggiungere al `Path` le cartelle `bin` del JDK e di Maven. Non basta il solo runtime Java.
+2. Scaricare il progetto da GitHub con **Code → Download ZIP** ed estrarlo, oppure clonarlo con Git.
+3. Aprire PowerShell nella cartella che contiene `pom.xml` e controllare:
+
+```powershell
+java -version
+javac -version
+mvn -version
+```
+
+Java e il compilatore devono risultare della versione 21; anche Maven deve indicare quel JDK. Dopo aver modificato le variabili di sistema, riaprire il terminale.
+
+Avviare il programma:
+
+```powershell
+.\scripts\avvia.bat
+```
+
+Eseguire le 20 verifiche:
+
+```powershell
+.\scripts\verifica.bat
+```
+
+La prima compilazione richiede Internet per scaricare da Maven Central i componenti di build e la dipendenza gia prevista. Gli script funzionano anche dal Prompt dei comandi. Con un archivio diverso, anche in un percorso con spazi:
+
+```powershell
+.\scripts\avvia.bat "C:\Users\Nome\Documenti\Prova scontrini"
+```
+
+Per configurare Gmail nella stessa finestra PowerShell prima dell'avvio:
+
+```powershell
+$env:SMTP_USER = "tuoaccount@gmail.com"
+# Chiede la password per le app senza mostrarla durante la digitazione.
+$password = Read-Host "Password per le app Google" -AsSecureString
+$env:SMTP_PASSWORD = [System.Net.NetworkCredential]::new("", $password).Password
+.\scripts\avvia.bat
+# Dopo la chiusura elimina la password dalla sessione corrente.
+Remove-Item Env:SMTP_PASSWORD
+Remove-Variable password
+```
+
+Non salvare la password nei file `.bat` o nel repository. Le variabili impostate con `$env:` valgono per la sessione corrente e per il programma avviato da essa. Il programma usa `smtp.gmail.com:587` con STARTTLS. Senza configurazione Gmail puoi comunque emettere e consultare gli scontrini.
+
+Gli script Windows sono forniti per questo sistema; l'ambiente di sviluppo disponibile è Linux, quindi non sono stati eseguiti su Windows. I controlli Java sono stati eseguiti su Linux.
+
+### Linux/macOS e ambiente cloud
+
 Servono JDK 21 e Maven. Su Linux/macOS, dalla cartella del progetto:
 
 ```bash

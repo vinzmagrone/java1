@@ -73,7 +73,7 @@ Il prototipo prevede **una sola istanza per cartella dati**: non implementa bloc
 
 ## Piano di verifica e dimostrazione
 
-Eseguire `bash scripts/verifica.sh` per i controlli automatici descritti nel README. Per la dimostrazione del menu:
+Su Windows eseguire `.\scripts\verifica.bat`; su Linux/macOS eseguire `bash scripts/verifica.sh` per i controlli automatici descritti nel README. Gli script `.bat` usano il classpath Windows e attivano UTF-8 per gli accenti; richiedono JDK 21 e Maven nel Path. Non sono stati eseguiti su Windows nell'ambiente di sviluppo Linux. Per la dimostrazione del menu:
 
 1. Creare un archivio temporaneo e inserire l'acquisto dell'esempio: due caffè da 1,22 EUR al 22%, un pane da 1,04 EUR al 4%.
 2. Verificare il totale di 3,48 EUR e l'IVA di 0,48 EUR.
