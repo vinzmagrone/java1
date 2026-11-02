@@ -35,7 +35,7 @@ La partita IVA è controllata solo per lunghezza e cifre; non si verifica il cod
 
 Le due classi `Repository` dell'allegato avevano lo stesso nome e non potevano convivere nello stesso package. Sono state unificate. I percorsi Windows fissi sono stati sostituiti da una cartella relativa o configurabile. I flussi sono chiusi automaticamente con `try` e le eccezioni raggiungono il chiamante invece di nascondere un errore come risultato vuoto.
 
-Il codice SMTP mantiene la libreria e la versione originali. Il server è Gmail (`smtp.gmail.com:587`, STARTTLS); il mittente coincide con `SMTP_USER` e `SMTP_PASSWORD` contiene la password per le app Google. L'allegato PDF dimostrativo è sostituito dal file di testo realmente generato: produrre PDF richiederebbe codice ulteriore o nuove librerie non consentite. Il testo semplice evita anche di dover interpretare come HTML i dati inseriti dal cliente.
+Il codice SMTP mantiene la libreria e la versione originali. Il server è Gmail (`smtp.gmail.com:587`, STARTTLS); email e password per le app Google si inseriscono direttamente nelle costanti di `ConfigurazioneGmail.java`, seguendo le istruzioni Eclipse del README. Non servono variabili di ambiente. Non pubblicare la copia del file contenente credenziali reali. L'allegato PDF dimostrativo è sostituito dal file di testo realmente generato: produrre PDF richiederebbe codice ulteriore o nuove librerie non consentite. Il testo semplice evita anche di dover interpretare come HTML i dati inseriti dal cliente.
 
 ## Flusso di emissione
 
@@ -73,7 +73,7 @@ Il prototipo prevede **una sola istanza per cartella dati**: non implementa bloc
 
 ## Piano di verifica e dimostrazione
 
-Su Windows eseguire `.\scripts\verifica.bat`; su Linux/macOS eseguire `bash scripts/verifica.sh` per i controlli automatici descritti nel README. Gli script `.bat` usano il classpath Windows e attivano UTF-8 per gli accenti; richiedono JDK 21 e Maven nel Path. Non sono stati eseguiti su Windows nell'ambiente di sviluppo Linux. Per la dimostrazione del menu:
+In Eclipse aprire `VerificaProgetto.java` e scegliere **Run As → Java Application**. In alternativa, su Windows eseguire `.\scripts\verifica.bat`; su Linux/macOS eseguire `bash scripts/verifica.sh` per i controlli automatici descritti nel README. Gli script `.bat` usano il classpath Windows e attivano UTF-8 per gli accenti; richiedono JDK 21 e Maven nel Path. Non sono stati eseguiti su Windows nell'ambiente di sviluppo Linux. Per la dimostrazione del menu:
 
 1. Creare un archivio temporaneo e inserire l'acquisto dell'esempio: due caffè da 1,22 EUR al 22%, un pane da 1,04 EUR al 4%.
 2. Verificare il totale di 3,48 EUR e l'IVA di 0,48 EUR.
@@ -84,7 +84,7 @@ Su Windows eseguire `.\scripts\verifica.bat`; su Linux/macOS eseguire `bash scri
 
 ## Esiti verificati nell'ambiente di sviluppo
 
-La compilazione Maven è terminata con `BUILD SUCCESS`. Il comando `bash scripts/verifica.sh` ha eseguito e superato tutte le 20 verifiche. È stato inoltre provato il menu con input automatico: creazione dell'acquisto da 3,48 EUR, chiusura e riapertura del processo, rilettura del documento, assegnazione del numero 2 al secondo acquisto, rifiuto di carrello vuoto e quantità zero. Il tentativo senza configurazione SMTP ha conservato il documento da inviare. Dopo l'impostazione del server Gmail, la prima variabile richiesta è `SMTP_USER`.
+La compilazione Maven è terminata con `BUILD SUCCESS`. Il comando `bash scripts/verifica.sh` ha eseguito e superato tutte le 20 verifiche. È stato inoltre provato il menu con input automatico: creazione dell'acquisto da 3,48 EUR, chiusura e riapertura del processo, rilettura del documento, assegnazione del numero 2 al secondo acquisto, rifiuto di carrello vuoto e quantità zero. Il tentativo senza configurazione SMTP ha conservato il documento da inviare. Con la configurazione per Eclipse, i segnaposto non compilati producono un messaggio che invita ad aprire `ConfigurazioneGmail.java`.
 
 Composizione MIME e contenuto dell'allegato sono verificati offline. Non è stato eseguito un invio SMTP reale: non sono state fornite credenziali o una destinazione di prova autorizzata. Per questa parte resta la verifica manuale descritta sopra.
 

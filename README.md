@@ -8,92 +8,42 @@ Progetto didattico Java con menu testuale, realizzato a partire dagli esempi del
 
 Il POM conserva `it.amdani.school:smtp-example:0.0.1-SNAPSHOT` e l'unica dipendenza dichiarata nell'allegato, `com.sun.mail:javax.mail:1.6.2`. JavaMail usa anche la propria dipendenza transitiva Activation: non è stata aggiunta una libreria applicativa. Nessun framework, database, generatore PDF o libreria di test è stato introdotto. Si usa il JDK 21 già preparato nell'ambiente e Maven 3.9.9, senza sostituire versioni indicate dal docente.
 
-## Avvio rapido
+## Avvio in Eclipse su Windows, senza terminale
 
-### Windows
+1. Installare **JDK 21** ed **Eclipse IDE for Java Developers** con il supporto Maven (m2e). Eclipse gestisce Maven: non occorre installarlo separatamente o usare i file `.bat`.
+2. Scaricare il progetto da GitHub con **Code → Download ZIP** ed estrarlo.
+3. In Eclipse scegliere **File → Import → Maven → Existing Maven Projects**.
+4. Con **Browse** selezionare la cartella che contiene `pom.xml`, selezionare il progetto e premere **Finish**. Attendere il download delle dipendenze: al primo avvio serve Internet.
+5. In **Window → Preferences → Java → Installed JREs** selezionare il **JDK 21**. Se manca, aggiungerlo con **Add → Standard VM**, indicando la cartella del JDK. In **Project → Properties → Java Build Path → Libraries** verificare che il progetto utilizzi Java 21.
+6. Espandere **src/main/java → it.amdani.school**, aprire `Main.java` e scegliere **Run As → Java Application**.
+7. Usare il menu nella scheda **Console** di Eclipse: fare clic nella Console per digitare le risposte.
 
-1. Installare **JDK 21** e **Apache Maven 3.9.9**. Impostare `JAVA_HOME` sulla cartella del JDK e aggiungere al `Path` le cartelle `bin` del JDK e di Maven. Non basta il solo runtime Java.
-2. Scaricare il progetto da GitHub con **Code → Download ZIP** ed estrarlo, oppure clonarlo con Git.
-3. Aprire PowerShell nella cartella che contiene `pom.xml` e controllare:
+Non occorrono comandi di terminale. Il menu è testuale nella Console di Eclipse, non una finestra grafica. Se Eclipse segnala dipendenze mancanti, fare clic destro sul progetto e scegliere **Maven → Update Project**.
 
-```powershell
-java -version
-javac -version
-mvn -version
+### Gmail: credenziali direttamente nel codice
+
+Aprire `ConfigurazioneGmail.java` e sostituire i due segnaposto tra virgolette:
+
+```java
+public static final String EMAIL = "INSERISCI_LA_TUA_EMAIL";
+public static final String PASSWORD_APP = "INSERISCI_LA_PASSWORD_PER_LE_APP";
 ```
 
-Java e il compilatore devono risultare della versione 21; anche Maven deve indicare quel JDK. Dopo aver modificato le variabili di sistema, riaprire il terminale.
+Inserire il proprio indirizzo Gmail e la **password per le app Google**, poi salvare con **Ctrl+S** e riavviare `Main.java`. Server `smtp.gmail.com`, porta `587`, autenticazione e STARTTLS sono già configurati. Il mittente coincide con l'indirizzo inserito. Non servono variabili d'ambiente.
 
-Avviare il programma:
+La password per le app si genera dalle impostazioni dell'account Google dopo aver attivato la verifica in due passaggi, se disponibile per quell'account. Alcuni account scolastici o aziendali non la consentono: verificare con l'amministratore. Non usare la password ordinaria Gmail e non pubblicare su GitHub il file dopo aver inserito credenziali reali. I segnaposto pubblicati non contengono credenziali funzionanti.
 
-```powershell
-.\scripts\avvia.bat
-```
+Il programma funziona subito per creazione e consultazione anche senza compilare questi due campi. Per inviare realmente, email e password per le app sono indispensabili.
 
-Eseguire le 20 verifiche:
+### Verifiche da Eclipse
 
-```powershell
-.\scripts\verifica.bat
-```
+Espandere **src/test/java → it.amdani.school**, aprire `VerificaProgetto.java` e scegliere **Run As → Java Application**. Nella Console deve comparire **SUPERATE 20 verifiche.** Non usare **Run As → JUnit Test**: non è stata aggiunta la libreria JUnit.
 
-La prima compilazione richiede Internet per scaricare da Maven Central i componenti di build e la dipendenza gia prevista. Gli script funzionano anche dal Prompt dei comandi. Con un archivio diverso, anche in un percorso con spazi:
+### Dove vengono salvati gli scontrini
 
-```powershell
-.\scripts\avvia.bat "C:\Users\Nome\Documenti\Prova scontrini"
-```
+Nella cartella `dati` del progetto, con la directory di lavoro predefinita di Eclipse. Per vederla, fare clic destro sul progetto e scegliere **Refresh**. Per un archivio diverso: **Run → Run Configurations → Java Application → Main → Arguments → Program arguments**, inserire il percorso tra virgolette, per esempio `"C:\Users\Nome\Documenti\Prova scontrini"`.
 
-Per configurare Gmail nella stessa finestra PowerShell prima dell'avvio:
-
-```powershell
-$env:SMTP_USER = "tuoaccount@gmail.com"
-# Chiede la password per le app senza mostrarla durante la digitazione.
-$password = Read-Host "Password per le app Google" -AsSecureString
-$env:SMTP_PASSWORD = [System.Net.NetworkCredential]::new("", $password).Password
-.\scripts\avvia.bat
-# Dopo la chiusura elimina la password dalla sessione corrente.
-Remove-Item Env:SMTP_PASSWORD
-Remove-Variable password
-```
-
-Non salvare la password nei file `.bat` o nel repository. Le variabili impostate con `$env:` valgono per la sessione corrente e per il programma avviato da essa. Il programma usa `smtp.gmail.com:587` con STARTTLS. Senza configurazione Gmail puoi comunque emettere e consultare gli scontrini.
-
-Gli script Windows sono forniti per questo sistema; l'ambiente di sviluppo disponibile è Linux, quindi non sono stati eseguiti su Windows. I controlli Java sono stati eseguiti su Linux.
-
-### Linux/macOS e ambiente cloud
-
-Servono JDK 21 e Maven. Su Linux/macOS, dalla cartella del progetto:
-
-```bash
-bash scripts/avvia.sh
-```
-
-Per utilizzare un archivio diverso:
-
-```bash
-bash scripts/avvia.sh /tmp/prova-scontrini
-```
-
-Nell'ambiente cloud preparato per questo progetto, attivare prima gli strumenti e la configurazione di rete:
-
-```bash
-export JAVA_HOME=/workspace/.tools/jdk-21.0.13+9
-export PATH="$JAVA_HOME/bin:/workspace/.tools/apache-maven-3.9.9/bin:$PATH"
-export MAVEN_SETTINGS=/workspace/.maven-setup/settings.xml
-export MAVEN_OPTS='-Djavax.net.ssl.trustStore=/etc/ssl/certs/java/cacerts'
-cd /workspace/java1
-bash scripts/avvia.sh
-```
-
-Gli ultimi due parametri riguardano il proxy cloud e i suoi certificati, non vanno copiati su un computer privo di quei file. In questo ambiente i comandi di rete richiedono inoltre l'accesso consentito dal runner.
-
-Comandi equivalenti senza script:
-
-```bash
-mvn package dependency:copy-dependencies
-java -cp 'target/classes:target/dependency/*' it.amdani.school.Main
-```
-
-Su Windows il separatore del classpath è `;`: `java -cp "target/classes;target/dependency/*" it.amdani.school.Main`.
+Gli script `.bat` e `.sh` restano strumenti facoltativi per altri ambienti. Eclipse compila direttamente il progetto importato da Maven. L'ambiente di verifica disponibile è Linux: l'importazione e l'esecuzione in Eclipse su Windows non sono state provate qui.
 
 ## Guida al menu
 
@@ -109,32 +59,16 @@ Punto e virgola sono accettati come separatore decimale. Il prezzo può avere al
 
 Acquistando due caffè a 1,22 EUR con IVA 22% e un pane a 1,04 EUR con IVA 4%, si ottengono totale 3,48 EUR, IVA inclusa 0,48 EUR e imponibile 3,00 EUR. Il documento riporta la dicitura di simulazione, il negozio, la partita IVA, la data, il numero, il cliente e le righe acquistate.
 
-## Configurazione dell'email
+## Invio email
 
-Il server è Gmail: `smtp.gmail.com`, porta predefinita `587`, con STARTTLS. Configurare nel proprio ambiente le seguenti variabili, senza inserire credenziali nel codice o nel repository:
+La configurazione è nella classe `ConfigurazioneGmail`, descritta sopra. L'invio usa autenticazione e STARTTLS obbligatorio, con controllo del certificato e del nome del server. Non supporta TLS implicito sulla porta 465.
 
-| Variabile | Significato |
-| --- | --- |
-| `SMTP_PORT` | Porta STARTTLS, predefinita `587` |
-| `SMTP_USER` | Indirizzo completo dell'account Gmail, usato anche come mittente |
-| `SMTP_PASSWORD` | Password per le app generata dall'account Google |
-
-Nell'account Google attivare la verifica in due passaggi e generare una password per le app, se disponibile per l'account. Usare questa password al posto della password ordinaria di Gmail. Alcuni account scolastici o aziendali non consentono password per le app: in quel caso occorre verificare le impostazioni con l'amministratore. Non inviare la password in chat. `SMTP_HOST` e `SMTP_FROM` non servono: server e mittente sono già determinati dal programma.
-
-L'invio usa autenticazione e STARTTLS obbligatorio, con controllo del certificato e del nome del server. Non supporta la porta 465 con TLS implicito. Il provider deve consentire questo tipo di autenticazione. L'esempio originale con password nel sorgente è stato adattato per leggere le variabili d'ambiente.
-
-Un proxy HTTPS non abilita automaticamente SMTP: nell'ambiente cloud occorre un percorso TCP autorizzato verso il server e la porta. Eventuali credenziali sostituite soltanto da un proxy HTTPS non sono automaticamente utilizzabili da JavaMail via SMTP. Nessuna email viene inviata all'avvio o durante le prove automatiche.
-
-La conferma indica che il server SMTP ha accettato il messaggio, non che il cliente lo abbia ricevuto o letto. Se l'invio fallisce, il documento resta nell'archivio e si può riprovare. Se il server accetta la mail ma la scrittura dello stato fallisce, compare un avviso: ripetere l'invio potrebbe duplicarla. Anche un timeout dopo la trasmissione può lasciare incerto l'esito: controllare il provider prima di ritentare.
+La conferma significa che il server SMTP ha accettato il messaggio, non che il cliente lo abbia ricevuto o letto. Un errore di invio non elimina lo scontrino. Se l'accettazione riesce ma il salvataggio dello stato fallisce, il programma avvisa che ripetere l'invio può duplicare la mail. Anche un timeout dopo la trasmissione può lasciare incerto l'esito: controllare prima di ritentare.
 
 ## Verifiche
 
-```bash
-bash scripts/verifica.sh
-```
+In Eclipse fare clic destro su `VerificaProgetto.java` e scegliere **Run As → Java Application**. Un controllo fallito interrompe il programma e mostra un errore nella Console. Le 20 verifiche riguardano calcoli, copia del carrello, validazione, archivio assente e corrotto, salvataggio e rilettura, stato invio, testo UTF-8 e struttura/contenuto del messaggio MIME. I file di prova sono temporanei e vengono rimossi.
 
-Lo script compila con Maven ed esegue esplicitamente `VerificaProgetto`: un controllo fallito produce un codice di uscita diverso da zero. Le 20 verifiche riguardano calcoli, copia del carrello, validazione, archivio assente e corrotto, salvataggio e rilettura, stato invio, testo UTF-8 e struttura/contenuto del messaggio MIME. I file di prova sono temporanei e vengono rimossi.
-
-**`mvn test` da solo non esegue queste verifiche**, perché non si è aggiunta una libreria di test. Per validare il progetto usare lo script indicato. L'invio SMTP reale richiede credenziali e rete: non viene simulato come consegna riuscita dai test offline.
+**`mvn test` da solo non esegue queste verifiche**, perché non si è aggiunta una libreria di test. Per validare il progetto eseguire la classe indicata. L'invio SMTP reale richiede credenziali e rete: non viene simulato come consegna riuscita dai test offline.
 
 La relazione tecnica e una traccia per la presentazione in classe sono in [docs/DOCUMENTAZIONE.md](docs/DOCUMENTAZIONE.md).

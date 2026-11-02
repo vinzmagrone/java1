@@ -5,17 +5,8 @@ import java.util.Properties;
 import javax.mail.*;
 import javax.mail.internet.*;
 
-/** Adatta l'esempio SMTP del docente, senza password scritte nel sorgente. */
+/** Adatta l'esempio SMTP del docente alla configurazione Java per Eclipse. */
 public class SendMail {
-    /** Legge una configurazione obbligatoria senza mostrare le credenziali. */
-    private static String variabile(String nome) {
-        String valore = System.getenv(nome);
-        if (valore == null || valore.isBlank()) {
-            throw new IllegalStateException("Configurare la variabile " + nome + " prima dell'invio.");
-        }
-        return valore;
-    }
-
     /** Costruisce il messaggio separatamente dal trasporto, così è verificabile offline. */
     public static MimeMessage prepara(Session sessione, String mittente, Scontrino scontrino, Path file) throws Exception {
         Scontrino.validaEmail(mittente);
@@ -38,15 +29,16 @@ public class SendMail {
     /** Richiede autenticazione, STARTTLS e verifica dell'identità del server. */
     public void invia(Scontrino scontrino, Path file) throws Exception {
         // Server Gmail richiesto per il progetto: SMTP con STARTTLS sulla porta 587.
-        String host = "smtp.gmail.com";
-        String utente = variabile("SMTP_USER");
-        String password = variabile("SMTP_PASSWORD");
+        String host = ConfigurazioneGmail.SERVER;
+        String utente = ConfigurazioneGmail.EMAIL;
+        String password = ConfigurazioneGmail.PASSWORD_APP;
+        if (utente.startsWith("INSERISCI_") || password.startsWith("INSERISCI_")
+                || utente.isBlank() || password.isBlank()) {
+            throw new IllegalStateException("Apri ConfigurazioneGmail.java in Eclipse e inserisci email e password per le app Google.");
+        }
         // Per Gmail il mittente coincide con l'account che si autentica.
         String mittente = utente;
-        String porta = System.getenv("SMTP_PORT");
-        if (porta == null || porta.isBlank()) {
-            porta = "587";
-        }
+        String porta = ConfigurazioneGmail.PORTA;
         int numeroPorta = Integer.parseInt(porta);
         if (numeroPorta < 1 || numeroPorta > 65535) {
             throw new IllegalArgumentException("Porta SMTP non valida.");
